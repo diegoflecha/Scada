@@ -188,18 +188,18 @@ p {color:grey}
 <div id="hora">horasddssd</div>
 <script language="javascript">
     
- ///BARRA DE NIVEL/////  
+
+    
 var dato_on=document.getElementById("valor"); 
 var nivel= document.getElementById("nivel");      
 var lista =document.getElementsByTagName("lista");            
-var valor_alarma =document.getElementById("valor_recibido");
-var valor_nivel =document.getElementById("valor_nivel");    
 var ALARMA= document.getElementById("ALARMA");    
 var turbina= document.getElementById("turbina");
 var turbina3= document.getElementById("turbina-3");
-var nivel_caudal= document.getElementById("valor_caudal");
+
 var thetaDelta  = 2;
 var initialTheta = 0;
+    
 turbina.currentTheta = initialTheta; // The initial rotation angle to use when the animation starts, stored in a custom property.
 turbina3.currentTheta = initialTheta + 90;
 //////////////////////////////////////////////////////////////////////TEMPORIZADOR   HORA///////////////////////////////////////////////////
@@ -221,19 +221,20 @@ turbina3.currentTheta = initialTheta + 90;
 
  
   function temporizadorfc() {
-        timerfc = setTimeout("temporizadorfc()", 990);
+        timerfc = setTimeout("temporizadorfc()",990);
         pide();
   }
 
   function pide() {
         jQuery.post( "{{=URL('default','pide_datos.json')}}")
         .success(function(datos_recibidos) {
+         var valor_alarma =document.getElementById("valor_recibido");  
          jQuery("#valor_recibido").html(datos_recibidos["dato_alarma"]);  
-
+         var valor_nivel =document.getElementById("valor_nivel"); 
          jQuery("#valor_nivel").html(datos_recibidos["dato_nivel"]);  
-            
+         var nivel_caudal= document.getElementById("valor_caudal");   
          jQuery("#valor_caudal").html(datos_recibidos["dato_caudal"]); 
-            
+         
          var dato_nivel1=valor_nivel.innerHTML; 
          console.log(dato_nivel1);  
          nivel.setAttribute("height",dato_nivel1 * 15);             
@@ -256,9 +257,9 @@ turbina3.currentTheta = initialTheta + 90;
  
 
         turbina.setAttribute("transform", "rotate(" + turbina.currentTheta + ")"); // Rotate the square by a small amount.
-        turbina.currentTheta += velocidad *8 ;  // Increase the angle that the square will be rotated to, by a small amount.
+        turbina.currentTheta += velocidad *2 ;  // Increase the angle that the square will be rotated to, by a small amount.
         turbina3.setAttribute("transform", "rotate(" + turbina3.currentTheta + ")"); // Rotate the square by a small amount.
-        turbina3.currentTheta += velocidad *8 ;  // Increase the angle that the square will be rotated to, by a small amount.   
+        turbina3.currentTheta += velocidad *2 ;  // Increase the angle that the square will be rotated to, by a small amount.   
 
     
    

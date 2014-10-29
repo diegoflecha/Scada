@@ -120,9 +120,7 @@
     <g
        transform="translate(467.60059,732.7366)"
        id="g45">
-      <!-- Create a Cartesian coordinate system (with the y-axis flipped) for the animated square. That is, place the origin at the center of the 800 x 800 SVG6 viewport: -->
-      <!-- A 200 x 200 square with the upper left-hand corner at (-100, -100). This places the center of the square 
-      at the origin (0, 0): -->
+     
       <rect
          id="turbina"
          x="-3.7224905"
@@ -133,7 +131,7 @@
          ry="5.1073141"
          style="fill:#ffa500;stroke:#000000;stroke-width:0.84693271;stroke-dasharray:2.82310895, 1.41155447"
          transform="matrix(-0.04488517,0.99899215,-0.99999997,-2.6162865e-4,0,0)" />
-      <!-- Represents the x-axis: -->
+    
       <line
          x1="-5"
          y1="0"
@@ -141,7 +139,7 @@
          y2="0"
          style="stroke:#000000"
          id="line48" />
-      <!-- Represents the y-axis (although up is negative and down is positive): -->
+   
       <line
          x1="0"
          y1="-5"
@@ -175,7 +173,7 @@ p {color:grey}
 </style>
 </head>
 <div></div>
-<div id="lista1">lista</div>
+<div id="lista1"></div>
 <input type="button" id="start" value="START">
 <input type="button" id="stop" value="STOP">
 <div id="valor">valor a enviar</div>
@@ -187,20 +185,20 @@ p {color:grey}
 <div id="fecha">fechdfgsda</div>
 <div id="hora">horasddssd</div>
 <script language="javascript">
-    
- ///BARRA DE NIVEL/////  
+var valor_alarma =document.getElementById("valor_recibido");     
+var valor_nivel =document.getElementById("valor_nivel"); 
+var nivel_caudal= document.getElementById("valor_caudal");     
 var dato_on=document.getElementById("valor"); 
 var nivel= document.getElementById("nivel");      
 var lista =document.getElementsByTagName("lista");            
-var valor_alarma =document.getElementById("valor_recibido");
-var valor_nivel =document.getElementById("valor_nivel");    
 var ALARMA= document.getElementById("ALARMA");    
 var turbina= document.getElementById("turbina");
 var turbina3= document.getElementById("turbina-3");
-var nivel_caudal= document.getElementById("valor_caudal");
+
 var thetaDelta  = 2;
 var initialTheta = 0;
-turbina.currentTheta = initialTheta; // The initial rotation angle to use when the animation starts, stored in a custom property.
+    
+turbina.currentTheta = initialTheta; 
 turbina3.currentTheta = initialTheta + 90;
 //////////////////////////////////////////////////////////////////////TEMPORIZADOR   HORA///////////////////////////////////////////////////
 
@@ -218,22 +216,23 @@ turbina3.currentTheta = initialTheta + 90;
         });
  } 
     
-
- 
-  function temporizadorfc() {
-        timerfc = setTimeout("temporizadorfc()", 999);
+    function temporizadorfc() {
+        timerfc = setTimeout("temporizadorfc()",990);
         pide();
   }
 
   function pide() {
+	  
         jQuery.post( "{{=URL('default','pide_datos.json')}}")
+        
         .success(function(datos_recibidos) {
+         
          jQuery("#valor_recibido").html(datos_recibidos["dato_alarma"]);  
-
+       
          jQuery("#valor_nivel").html(datos_recibidos["dato_nivel"]);  
-            
+          
          jQuery("#valor_caudal").html(datos_recibidos["dato_caudal"]); 
-            
+         
          var dato_nivel1=valor_nivel.innerHTML; 
          console.log(dato_nivel1);  
          nivel.setAttribute("height",dato_nivel1 * 15);             
@@ -256,9 +255,9 @@ turbina3.currentTheta = initialTheta + 90;
  
 
         turbina.setAttribute("transform", "rotate(" + turbina.currentTheta + ")"); // Rotate the square by a small amount.
-        turbina.currentTheta += velocidad *8 ;  // Increase the angle that the square will be rotated to, by a small amount.
+        turbina.currentTheta += velocidad *2 ;  // Increase the angle that the square will be rotated to, by a small amount.
         turbina3.setAttribute("transform", "rotate(" + turbina3.currentTheta + ")"); // Rotate the square by a small amount.
-        turbina3.currentTheta += velocidad *8 ;  // Increase the angle that the square will be rotated to, by a small amount.   
+        turbina3.currentTheta += velocidad *2 ;  // Increase the angle that the square will be rotated to, by a small amount.   
 
     
    
@@ -279,8 +278,7 @@ turbina3.currentTheta = initialTheta + 90;
     
   }
      
-               
-    jQuery(document).ready(function() {
+      jQuery(document).ready(function() {
       timer = setTimeout("temporizador()", 1000);
       timerfc = setTimeout("temporizadorfc()", 1000);
   
@@ -293,23 +291,13 @@ turbina3.currentTheta = initialTheta + 90;
           encender();
           
       });
-
-
-
-    });    
+	  });    
           jQuery(document).ready(function() {
       timer = setTimeout("temporizador()", 500);
       
       jQuery(":button#stop").click(function() {
           apagar();
-          
       });
+      });   
 
-
-
-    });   
-
-
-                    
-              
 </script>

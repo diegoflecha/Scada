@@ -10,7 +10,7 @@ for i in range(11):
     if os.path.exists(puerto):
         break
 try:
-    puerto_Serie=serial.Serial(puerto, 9600)
+    puerto_Serie=serial.Serial(puerto, 9600 )
  
 except Exception,e:
     print e
@@ -19,31 +19,42 @@ except Exception,e:
 global dato_caudal
 global dato_alarma
 global dato_nivel
+global nivel_recibido
 global lista
+global tiempo
+global buffer
+tiempo=0.01
 nivel_recibido= ''
-
-
-
 buffer=""
 dato_alarma=""
 dato_nivel=""
 dato_caudal=""
 lista=[]
 puerto_Serie.close()
+
 puerto_Serie.open()
+
 if puerto_Serie.inWaiting()>0:
-    
+   
     buffer = buffer + puerto_Serie.read(puerto_Serie.inWaiting())
-    
+
     if '\n' in buffer:
+
+        
+       nivel_recibido, buffer = buffer.split('\n')[-2:]
+
+       dato_alarma=nivel_recibido[0]
+
+       dato_nivel= nivel_recibido[1]
+
+       dato_caudal= nivel_recibido[2]  
+
+       lista= [ dato_alarma,dato_nivel,dato_caudal]
+
+       print lista 
+  
            
-           nivel_recibido, buffer = buffer.split('\n')[-2:]
-           dato_alarma=nivel_recibido[0]
-           dato_nivel= nivel_recibido[1]
-           dato_caudal= nivel_recibido[2]  
-           lista= [ dato_alarma,dato_nivel,dato_caudal]
-           time.sleep(0.01)
-       
+           
 def index():
     """
     example action using the internationalization operator T and flash
@@ -56,31 +67,35 @@ def index():
     return dict(message=T('Hello World'))
 
 
+def pide_datos():
 
+    time.sleep(tiempo)
+    return dict(dato_alarma=dato_alarma,dato_nivel=dato_nivel,dato_caudal=dato_caudal)
+  
+  
 def pide_hora():
  
     hora=datetime.datetime.now().strftime("%H:%M:%S")
     fecha=datetime.datetime.now().strftime("%d-%m-%Y")
     return dict(hora=hora,fecha=fecha)
 
-def pide_datos():
     
-    print lista
-
-    return dict(dato_alarma=dato_alarma,dato_nivel=dato_nivel,dato_caudal=dato_caudal)
-
 def recibe_datos():
-    
-      
+
     operando1=int(request.vars.operando1)
+
     if operando1==1:
+
         operando1="1"
+
     if operando1==0:
+
         operando1="0"
+
     puerto_Serie.write(operando1)
+
     print operando1 
    
-
 def user():
     """
     exposes:
