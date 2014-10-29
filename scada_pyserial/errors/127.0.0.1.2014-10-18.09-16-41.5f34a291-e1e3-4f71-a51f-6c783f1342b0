@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.UnboundLocalError'> local variable 'final_carrera' referenced before assignment"
+p3
+sS'layer'
+p4
+S'/home/diego/web2py/applications/scada_pyserial/controllers/default.py'
+p5
+sS'code'
+p6
+S'# -*- coding: utf-8 -*-\n# this file is released under public domain and you can use without limitations\n\n#########################################################################\n## This is a sample controller\n## - index is the default action of any application\n## - user is required for authentication and authorization\n## - download is for downloading files uploaded in the db (does streaming)\n## - call exposes all registered services (none by default)\n#########################################################################\n\nimport math\nimport datetime\nimport serial\nimport time\n\n\n \n \npuerto_Serie=serial.Serial(\'/dev/ttyACM2\', 9600)\n\npuerto_Serie.close()\npuerto_Serie.open()\n    \nrecibido=""\nfinal_carrera=""\nif puerto_Serie.inWaiting()>0:\n    \n      \n    recibido=puerto_Serie.read()\n\n    time.sleep(0.01)\n\n\ndef index():\n    """\n    example action using the internationalization operator T and flash\n    rendered by views/default/index.html or views/generic.html\n\n    if you need a simple wiki simply replace the two lines below with:\n    return auth.wiki()\n    """\n    response.flash = T("Welcome to web2py!")\n    return dict(message=T(\'Hello World\'))\n\ndef pide_hora():\n\n\n    hora=datetime.datetime.now().strftime("%H:%M:%S")\n    fecha=datetime.datetime.now().strftime("%d-%m-%Y")\n \n    return dict(hora=hora,fecha=fecha)\n \n\ndef pide_datos():\n    \n    if recibido==1:\n        final_carrera=1\n    if recibido==0:\n        final_carrera=0\n \n    return dict(final_carrera=final_carrera)\n\n    \n\n\ndef user():\n    """\n    exposes:\n    http://..../[app]/default/user/login\n    http://..../[app]/default/user/logout\n    http://..../[app]/default/user/register\n    http://..../[app]/default/user/profile\n    http://..../[app]/default/user/retrieve_password\n    http://..../[app]/default/user/change_password\n    http://..../[app]/default/user/manage_users (requires membership in\n    use @auth.requires_login()\n    @auth.requires_membership(\'group name\')\n    @auth.requires_permission(\'read\',\'table name\',record_id)\n    to decorate functions that need access control\n    """\n    return dict(form=auth())\n\n@cache.action()\ndef download():\n    """\n    allows downloading of uploaded files\n    http://..../[app]/default/download/[filename]\n    """\n    return response.download(request, db)\n\ndef call():\n    """\n    exposes services. for example:\n    http://..../[app]/default/call/jsonrpc\n    decorate with @services.jsonrpc the functions to expose\n    supports xml, json, xmlrpc, jsonrpc, amfrpc, rss, csv\n    """\n    return service()\n\n\n@auth.requires_signature()\ndef data():\n    """\n    http://..../[app]/default/data/tables\n    http://..../[app]/default/data/create/[table]\n    http://..../[app]/default/data/read/[table]/[id]\n    http://..../[app]/default/data/update/[table]/[id]\n    http://..../[app]/default/data/delete/[table]/[id]\n    http://..../[app]/default/data/select/[table]\n    http://..../[app]/default/data/search/[table]\n    but URLs must be signed, i.e. linked with\n        A(\'table\',_href=URL(\'data/tables\',user_signature=True))\n      or with the signed load operator\n     LOAD(\'default\',\'data.load\',args=\'tables\',ajax=True,user_signature=True)\n    """\n    return dict(form=crud())\n\nresponse._vars=response._caller(pide_datos)\n'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/diego/web2py/gluon/restricted.py", line 224, in restricted\n    exec ccode in environment\n  File "/home/diego/web2py/applications/scada_pyserial/controllers/default.py", line 119, in <module>\n  File "/home/diego/web2py/gluon/globals.py", line 392, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/diego/web2py/applications/scada_pyserial/controllers/default.py", line 62, in pide_datos\n    return dict(final_carrera=final_carrera)\nUnboundLocalError: local variable \'final_carrera\' referenced before assignment\n'
+p11
+s.
